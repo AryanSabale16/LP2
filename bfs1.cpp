@@ -1,53 +1,62 @@
 #include <iostream>
+#include <vector>
 #include <queue>
 using namespace std;
 
-// Recursive function to process BFS
-void BFSRecursive(int adj[][100], bool visited[], queue<int> &q, int ver) {
-    if (q.empty())
-        return;
+#define MAX 100
 
-    int node = q.front();
-    q.pop();
-    cout << node << " ";
+int adjMatrix[MAX][MAX];
+bool visited[MAX];
+int n;
 
-    for (int i = 0; i < ver; i++) {
-        if (adj[node][i] == 1 && !visited[i]) {
-            visited[i] = true;
-            q.push(i);
+void BFS(int start) {
+    queue<int> q;
+    visited[start] = true;
+    q.push(start);
+
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        cout << v << " ";
+
+        for (int i = 0; i < n; i++) {
+            if (adjMatrix[v][i] == 1 && !visited[i]) {
+                visited[i] = true;
+                q.push(i);
+            }
         }
     }
-
-    BFSRecursive(adj, visited, q, ver); // Recur with updated queue
 }
 
 int main() {
-    int ver;
-    cout << "Enter the number of vertices: ";
-    cin >> ver;
+    int edges;
+    cout << "Enter number of vertices: ";
+    cin >> n;
 
-    int edge;
-    cout << "Enter the number of edges: ";
-    cin >> edge;
+    cout << "Enter number of edges: ";
+    cin >> edges;
 
-    int adj[100][100] = {0};
-    cout << "Enter the edges (start to end):" << endl;
-    for (int i = 0; i < edge; i++) {
-        int u, v;
-        cin >> u >> v;
-        adj[u][v] = 1;
-        adj[v][u] = 1; // For undirected graph
+    for (int i = 0; i < n; i++) {
+        visited[i] = false;
+        for (int j = 0; j < n; j++) {
+            adjMatrix[i][j] = 0;
+        }
     }
 
-    bool visited[100] = {false};
-    queue<int> q;
+    cout << "Enter edges (format: source destination):" << endl;
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+        adjMatrix[u][v] = 1;
+        adjMatrix[v][u] = 1; 
+    }
 
-    visited[0] = true;
-    q.push(0);
+    int startVertex;
+    cout << "Enter starting vertex for BFS: ";
+    cin >> startVertex;
 
-    cout << "BFS Traversal (Recursive) starting from 0: ";
-    BFSRecursive(adj, visited, q, ver);
-    cout << endl;
+    cout << "BFS traversal starting from vertex " << startVertex << ": ";
+    BFS(startVertex);
 
     return 0;
 }
