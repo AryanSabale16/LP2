@@ -2,7 +2,6 @@
 #include <string>
 using namespace std;
 
-// Function to give response based on user input
 void chatbotResponse(const string& userInput) {
     if (userInput == "hi" || userInput == "hello") {
         cout << "Chatbot: Hello! How can I help you today?\n";
@@ -29,9 +28,6 @@ int main() {
     while (true) {
         cout << "\nYou: ";
         getline(cin, userInput);
-
-        // Convert userInput to lowercase for simplicity (optional)
-        for (auto& c : userInput) c = tolower(c);
 
         if (userInput == "bye" || userInput == "exit") {
             chatbotResponse(userInput);
