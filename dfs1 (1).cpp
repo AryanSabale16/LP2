@@ -1,34 +1,57 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-void DFSrecursive(int node,int V,int adj[][100],bool visited[]){
-             visited[node]=true; 
-             cout<<node<<" ";
-             for(int i=0;i<V;i++){
-                if(adj[node][i]==1 && !visited[i])
-                {
-                     DFSrecursive(i,V,adj,visited);
-                }
-             }
-}
-int main(){
-    int ver;
-    cout<<"Enter the number of vertex: ";
-    cin>>ver;
+#define MAX 100
 
-    int edge;
-    cout<<"Enter the number of edge: ";
-    cin>>edge;
 
-    int adj[100][100]={0};
-    cout<<"Enter the edges from start to end :\n";
-    for(int i=0;i<edge;i++){
-        int u,v;
-        cin>>u>>v;
-         adj[u][v]=1;
-         adj[v][u]=1;
+int adjMatrix[MAX][MAX];
+bool visited[MAX];
+
+
+int n;
+
+
+void DFS(int v) {
+    visited[v] = true;
+    cout << v << " ";
+
+    for (int i = 0; i < n; i++) {
+        if (adjMatrix[v][i] == 1 && !visited[i]) {
+            DFS(i);
+        }
     }
-    bool visited[100]={false};
-    cout<<"Dfs traversal starts from 0: ";
-    DFSrecursive(0, ver,adj,visited);
+}
+
+int main() {
+    int edges;
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    for (int i = 0; i < n; i++) {
+        visited[i] = false;
+        for (int j = 0; j < n; j++) {
+            adjMatrix[i][j] = 0;
+        }
+    }
+
+    cout << "Enter edges (format: source destination):" << endl;
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+        adjMatrix[u][v] = 1;
+        adjMatrix[v][u] = 1;
+    }
+
+    int startVertex;
+    cout << "Enter starting vertex for DFS: ";
+    cin >> startVertex;
+
+    cout << "DFS traversal starting from vertex " << startVertex << ": ";
+    DFS(startVertex);
+
+    return 0;
 }
